@@ -1265,7 +1265,8 @@ a.navbar-brand {
 	cursor: pointer;
 }
 
-#myTab .nav-link {
+#myTab .nav-link,
+.myTab .nav-link {
 	font-family: Gilroy-Medium;
     font-weight: 400;
 	font-size: 14px;
@@ -1278,13 +1279,16 @@ a.navbar-brand {
 }
 
 @media (max-width: 599.98px) {
-    #myTab.tablist .nav-item:has(span) {
+    #myTab.tablist .nav-item:has(span),
+    .myTab.tablist .nav-item:has(span) {
         padding-bottom: 2px;
     }
 }
 
 #myTab .nav-link.active,
-#myTab .nav-link:hover {
+#myTab .nav-link:hover,
+.myTab .nav-link.active,
+.myTab .nav-link:hover {
 	color: var(--corporate-color-1);
 	cursor: pointer;
 }
@@ -1821,6 +1825,7 @@ h6,
 .hover-image-card .image-wrapper {
     position: relative;
     overflow: hidden;
+    height: 100%;
 }
 
 .hover-image-card .image-default,
@@ -1902,12 +1907,14 @@ h6,
 }
 
 #myTab .nav-item:first-child  button.nav-link, 
+.myTab .nav-item:first-child  button.nav-link, 
 .nav-scroller .nav .nav-item:first-child  button.nav-link,
 .archive-portfolio-section-2 .nav-scroller .nav-item:first-child a.nav-link {
     padding-left: 0;
 }
 
 #myTab .nav-item:last-child  button.nav-link, 
+.myTab .nav-item:last-child  button.nav-link, 
 .nav-scroller .nav .nav-item:last-child  button.nav-link,
 .archive-portfolio-section-2 .nav-scroller .nav-item:last-child a.nav-link {
     padding-right: 0;

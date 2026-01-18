@@ -9,6 +9,7 @@
  * $args['image']               - URL основного изображения
  * $args['image_hover']         - URL изображения при наведении (опционально, для типа 'hover-image')
  * $args['title']               - заголовок карточки
+ * $args['show_title']          - показывать заголовок (bool), по умолчанию true. Если false - заголовок скрыт через CSS
  * $args['card_type']           - тип карточки: 'approximation' (увеличение), 'zoom-card' (зум), 'hover-image' (смена изображения), 'magnifier' (с лупой), по умолчанию 'approximation'
  * $args['default_image']       - URL изображения по умолчанию (если image не указан)
  * 
@@ -50,6 +51,7 @@ $link = isset($args['link']) ? $args['link'] : '';
 $image = isset($args['image']) ? $args['image'] : '';
 $image_hover = isset($args['image_hover']) ? $args['image_hover'] : '';
 $title = isset($args['title']) ? $args['title'] : '';
+$show_title = isset($args['show_title']) ? $args['show_title'] : true;
 $card_type = isset($args['card_type']) ? $args['card_type'] : 'approximation';
 $default_image = isset($args['default_image']) ? $args['default_image'] : get_template_directory_uri() . '/img/default-placeholder.webp';
 
@@ -94,7 +96,7 @@ if (!empty($link)) {
     <?php endif; ?>
     
     <?php if (!empty($title)) : ?>
-        <h3><?php echo esc_html($title); ?></h3>
+        <h3 <?php if (!$show_title) echo 'style="display: none;"'; ?>><?php echo esc_html($title); ?></h3>
     <?php endif; ?>
 </div>
 

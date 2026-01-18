@@ -37,6 +37,7 @@
  */
 
 // Получаем параметры
+$category = isset($args['category']) ? $args['category'] : 'all';
 $section_title = isset($args['section_title']) ? $args['section_title'] : 'Последние выполненные работы';
 $section_description = isset($args['section_description']) ? $args['section_description'] : '';
 $background_color = isset($args['background_color']) ? $args['background_color'] : 'bg-white';
@@ -44,8 +45,10 @@ $posts_count = isset($args['posts_count']) ? $args['posts_count'] : 6;
 $card_type = isset($args['card_type']) ? $args['card_type'] : 'approximation';
 $show_button = isset($args['show_button']) ? $args['show_button'] : true;
 $button_text = isset($args['button_text']) ? $args['button_text'] : 'Смотреть еще';
-$show_breadcrumbs = isset($args['show_breadcrumbs']) ? $args['show_breadcrumbs'] : false;
-$breadcrumbs_items = isset($args['breadcrumbs_items']) ? $args['breadcrumbs_items'] : [];
+$show_card_title = isset($args['show_card_title']) ? $args['show_card_title'] : true;
+
+// Генерируем уникальный ID для этого экземпляра блока
+$unique_id = 'portfolio-tabs-' . uniqid();
 
 // Проверяем, есть ли вообще работы в портфолио
 $check_query = new WP_Query([
@@ -95,12 +98,6 @@ if (!empty($portfolio_categories)) {
 <!-- SECTION PORTFOLIO -->
 <section class="archive-portfolio-section section-portfolio <?php echo esc_attr($background_color); ?>" style="padding-block: 60px;">
     <div class="container">
-        <?php if ($show_breadcrumbs && !empty($breadcrumbs_items)) : ?>
-            <?php get_template_part('template-parts/breadcrumbs/breadcrumbs', null, array(
-                'items' => $breadcrumbs_items
-            )); ?>
-        <?php endif; ?>
-        
         <div class="row">
             <div class="col text-md-center">
                 <h2 style="margin-bottom: 15px;"><?php echo esc_html($section_title); ?></h2>
@@ -119,11 +116,11 @@ if (!empty($portfolio_categories)) {
                     <div class="col text-center mb-4 mb-lg-5">
                         <!-- Bootstrap Tabs Navigation -->
                         <div class="nav-scroller mb-0" style="text-transform: uppercase; font-family: 'HelveticaNeueCyr-Light'; font-weight: bold;">
-                            <ul class="nav justify-content-lg-center d-flex m-auto align-items-center" id="myTab" role="tablist">
+                            <ul class="nav tablist justify-content-lg-center d-flex m-auto align-items-center myTab" id="<?php echo $unique_id; ?>" role="tablist">
                                 <!-- Таб "Все" -->
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all"
-                                        type="button" role="tab" aria-controls="all" aria-selected="true">
+                                    <button class="nav-link active" id="<?php echo $unique_id; ?>-all-tab" data-bs-toggle="tab" data-bs-target="#<?php echo $unique_id; ?>-all"
+                                        type="button" role="tab" aria-controls="<?php echo $unique_id; ?>-all" aria-selected="true">
                                         Все
                                     </button>
                                 </li>
@@ -140,9 +137,9 @@ if (!empty($portfolio_categories)) {
                                         </li>
                                         <!-- Категория -->
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="<?php echo esc_attr($category->slug); ?>-tab"
-                                                data-bs-toggle="tab" data-bs-target="#<?php echo esc_attr($category->slug); ?>"
-                                                type="button" role="tab" aria-controls="<?php echo esc_attr($category->slug); ?>"
+                                            <button class="nav-link" id="<?php echo $unique_id; ?>-<?php echo esc_attr($category->slug); ?>-tab"
+                                                data-bs-toggle="tab" data-bs-target="#<?php echo $unique_id; ?>-<?php echo esc_attr($category->slug); ?>"
+                                                type="button" role="tab" aria-controls="<?php echo $unique_id; ?>-<?php echo esc_attr($category->slug); ?>"
                                                 aria-selected="false">
                                                 <?php echo esc_html($category->name); ?>
                                             </button>
@@ -166,7 +163,7 @@ if (!empty($portfolio_categories)) {
                 <div class="tab-content" id="portfolioTabContent">
 
                     <!-- Все работы -->
-                    <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+                    <div class="tab-pane fade show active" id="<?php echo $unique_id; ?>-all" role="tabpanel" aria-labelledby="<?php echo $unique_id; ?>-all-tab">
                         <div class="row">
                             <?php
                             $args_all = [
@@ -188,6 +185,7 @@ if (!empty($portfolio_categories)) {
                                                 'image' => $image,
                                                 'image_hover' => $image_hover,
                                                 'title' => get_the_title(),
+                                                'show_title' => $show_card_title,
                                                 'card_type' => $card_type,
                                                 'link' => ''
                                             ));
@@ -213,8 +211,8 @@ if (!empty($portfolio_categories)) {
                     <?php if (!empty($valid_categories)): ?>
                         <?php foreach ($valid_categories as $category): ?>
                             <!-- <?php echo esc_html($category->name); ?> -->
-                            <div class="tab-pane fade" id="<?php echo esc_attr($category->slug); ?>" role="tabpanel"
-                                aria-labelledby="<?php echo esc_attr($category->slug); ?>-tab">
+                            <div class="tab-pane fade" id="<?php echo $unique_id; ?>-<?php echo esc_attr($category->slug); ?>" role="tabpanel"
+                                aria-labelledby="<?php echo $unique_id; ?>-<?php echo esc_attr($category->slug); ?>-tab">
                                 <div class="row">
                                     <?php
                                     $args_cat = [
@@ -242,6 +240,7 @@ if (!empty($portfolio_categories)) {
                                                     'image' => $image,
                                                     'image_hover' => $image_hover,
                                                     'title' => get_the_title(),
+                                                    'show_title' => $show_card_title,
                                                     'card_type' => $card_type,
                                                     'link' => ''
                                                 ));

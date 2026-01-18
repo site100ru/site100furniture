@@ -33,7 +33,7 @@
  */
 
 // Устанавливаем значения по умолчанию
-$category = isset($args['category']) ? $args['category'] : '';
+$category = isset($args['category']) ? $args['category'] : 'all';
 $section_title = isset($args['section_title']) ? $args['section_title'] : 'Наши работы';
 $section_description = isset($args['section_description']) ? $args['section_description'] : 'Представляем с гордостью!';
 $background_color = isset($args['background_color']) ? $args['background_color'] : 'bg-white';
@@ -41,30 +41,20 @@ $posts_count = isset($args['posts_count']) ? $args['posts_count'] : -1;
 $card_type = isset($args['card_type']) ? $args['card_type'] : 'approximation';
 $show_button = isset($args['show_button']) ? $args['show_button'] : true;
 $button_text = isset($args['button_text']) ? $args['button_text'] : 'Показать еще';
-$button_link = isset($args['button_link']) ? $args['button_link'] : '';
-$show_breadcrumbs = isset($args['show_breadcrumbs']) ? $args['show_breadcrumbs'] : false;
-$breadcrumbs_items = isset($args['breadcrumbs_items']) ? $args['breadcrumbs_items'] : [];
+$show_card_title = isset($args['show_card_title']) ? $args['show_card_title'] : true;
 
 // Автоматическое определение ссылки кнопки
-if (empty($button_link)) {
-    if (!empty($category)) {
-        $term = get_term_by('slug', $category, 'portfolio-cat');
-        $button_link = $term ? get_term_link($term) : '/portfolio/';
-    } else {
-        $button_link = '/portfolio/';
-    }
+if (!empty($category) && $category !== 'all') {
+    $term = get_term_by('slug', $category, 'portfolio-cat');
+    $button_link = $term ? get_term_link($term) : '/portfolio/';
+} else {
+    $button_link = '/portfolio/';
 }
 ?>
 
 <!-- Archive portfolio section -->
-<section class="archive-portfolio-section-2 pt-4 <?php echo esc_attr($background_color); ?>" style="padding-bottom: 60px;">
+<section class="archive-portfolio-section-2 <?php echo esc_attr($background_color); ?>" style="padding-block: 60px;">
     <div class="container">
-        <?php if ($show_breadcrumbs && !empty($breadcrumbs_items)) : ?>
-            <?php get_template_part('template-parts/breadcrumbs/breadcrumbs', null, array(
-                'items' => $breadcrumbs_items
-            )); ?>
-        <?php endif; ?>
-        
         <div class="row">
             <div class="col text-md-center">
                 <h2><?php echo esc_html($section_title); ?></h2>
@@ -89,8 +79,8 @@ if (empty($button_link)) {
                 'posts_per_page' => $posts_count
             ];
             
-            // Добавляем фильтр по категории, если указан slug
-            if (!empty($category)) {
+            // Добавляем фильтр по категории, если указан slug (не 'all')
+            if (!empty($category) && $category !== 'all') {
                 $query_args['portfolio-cat'] = $category;
             }
 
