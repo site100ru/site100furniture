@@ -76,7 +76,7 @@ include 'header.php';
 )); ?>
 
 <!-- Пример 4: Archive Portfolio Section -->
-<?php get_template_part('template-parts/archive-portfolio-section/archive-portfolio-section', null, array(
+<?php get_template_part('template-parts/portfolio-masonry-gallery/portfolio-masonry-gallery', null, array(
     'category' => 'all',
     'section_title' => 'Вариант 4 - Archive Portfolio Section',
     'section_description' => 'Masonry layout с динамической сеткой. Горизонтальный фильтр категорий.',
@@ -104,7 +104,7 @@ include 'header.php';
 )); ?>
 
 <!-- Пример 6: Archive Portfolio Section с категорией -->
-<?php get_template_part('template-parts/archive-portfolio-section/archive-portfolio-section', null, array(
+<?php get_template_part('template-parts/portfolio-masonry-gallery/portfolio-masonry-gallery', null, array(
     'category' => '01-kuhni',
     'section_title' => 'Вариант 6 - Masonry одна категория',
     'section_description' => 'Masonry layout для конкретной категории. Фильтр скрыт, карточки magnifier с лупой.',
@@ -132,7 +132,7 @@ include 'header.php';
 )); ?>
 
 <!-- Пример 8: Archive Portfolio Section максимальный -->
-<?php get_template_part('template-parts/archive-portfolio-section/archive-portfolio-section', null, array(
+<?php get_template_part('template-parts/portfolio-masonry-gallery/portfolio-masonry-gallery', null, array(
     'category' => 'all',
     'section_title' => 'Вариант 8 - Masonry максимальный',
     'section_description' => 'Полная конфигурация: хлебные крошки, фильтр, hover-карточки, кнопка.',

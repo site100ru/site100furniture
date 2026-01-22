@@ -31,7 +31,7 @@ $current_term = get_queried_object(); // определяем ID текущей 
 
 <!-- Portfolio Section -->
 <?php 
-get_template_part('template-parts/archive-portfolio-section/archive-portfolio-section', null, [
+get_template_part('template-parts/portfolio-masonry-gallery/portfolio-masonry-gallery', null, [
     'bg_color' => 'bg-white',
     'category' => $current_term->term_id, // ID текущей категории
     'show_title' => true,

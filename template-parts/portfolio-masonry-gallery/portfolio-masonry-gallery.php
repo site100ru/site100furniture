@@ -19,7 +19,7 @@
  * Примеры использования:
  * 
  * // Все работы с фильтром категорий
- * <?php get_template_part('template-parts/archive-portfolio-section/archive-portfolio-section', null, [
+ * <?php get_template_part('template-parts/portfolio-masonry-gallery/portfolio-masonry-gallery', null, [
  *     'background_color' => 'bg-white',
  *     'section_title' => 'Наши работы',
  *     'show_breadcrumbs' => true,
@@ -30,7 +30,7 @@
  * ]); ?>
  * 
  * // Работы конкретной категории без фильтра
- * <?php get_template_part('template-parts/archive-portfolio-section/archive-portfolio-section', null, [
+ * <?php get_template_part('template-parts/portfolio-masonry-gallery/portfolio-masonry-gallery', null, [
  *     'background_color' => 'bg-white',
  *     'category' => 'kuhni',
  *     'section_title' => 'Кухни',
@@ -216,13 +216,13 @@ if (!empty($category) && $category !== 'all') {
 
 <!-- Masonry -->
 <script>
-    <?php include get_template_directory() . '/template-parts/archive-portfolio-section/js/masonry.js'; ?>
+    <?php include get_template_directory() . '/template-parts/portfolio-masonry-gallery/js/masonry.js'; ?>
 </script>
 <script>
-    <?php include get_template_directory() . '/template-parts/archive-portfolio-section/js/imagesloaded.js'; ?>
+    <?php include get_template_directory() . '/template-parts/portfolio-masonry-gallery/js/imagesloaded.js'; ?>
 </script>
 
 <!-- Инициализация Masonry для портфолио -->
 <script>
-    <?php include get_template_directory() . '/template-parts/archive-portfolio-section/js/archive-portfolio-section.js'; ?>
+    <?php include get_template_directory() . '/template-parts/portfolio-masonry-gallery/js/portfolio-masonry-gallery.js'; ?>
 </script>
