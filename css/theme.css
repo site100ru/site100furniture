@@ -449,11 +449,11 @@ a:hover {
 	height: 60px;
 }
 
-.single-product-img.approximation:hover img{
+.default-card.approximation:hover img{
 	cursor: pointer;
 }
 
-.single-product-img.approximation:hover .magnifier {
+.default-card.approximation:hover .magnifier {
 	cursor: pointer;
 	opacity: 1;
 }
@@ -1265,7 +1265,8 @@ a.navbar-brand {
 	cursor: pointer;
 }
 
-#myTab .nav-link {
+#myTab .nav-link,
+.myTab .nav-link {
 	font-family: Gilroy-Medium;
     font-weight: 400;
 	font-size: 14px;
@@ -1278,13 +1279,16 @@ a.navbar-brand {
 }
 
 @media (max-width: 599.98px) {
-    #myTab.tablist .nav-item:has(span) {
+    #myTab.tablist .nav-item:has(span),
+    .myTab.tablist .nav-item:has(span) {
         padding-bottom: 2px;
     }
 }
 
 #myTab .nav-link.active,
-#myTab .nav-link:hover {
+#myTab .nav-link:hover,
+.myTab .nav-link.active,
+.myTab .nav-link:hover {
 	color: var(--corporate-color-1);
 	cursor: pointer;
 }
@@ -1715,6 +1719,7 @@ h6,
 }
 
 .default-card img {
+    max-height: inherit;
 	width: 100%;
 	height: 100%;
 	transition: 0.3s all ease;
@@ -1799,6 +1804,14 @@ h6,
 	opacity: 0;
 }
 
+.zoom-card {
+    overflow: hidden;
+}
+
+.zoom-card.portfolio {
+    border-radius: var(--radius-small);
+}
+
 .zoom-card img {
     transition: all;
     transition-duration: var(--transition-duration);
@@ -1812,6 +1825,7 @@ h6,
 .hover-image-card .image-wrapper {
     position: relative;
     overflow: hidden;
+    height: 100%;
 }
 
 .hover-image-card .image-default,
@@ -1841,10 +1855,25 @@ h6,
     opacity: 1;
 }
 
-.services {
-	border-radius: 10px;
-	width: 626px;
-	height: 424px;
+@media (min-width: 768px) {
+    .col-md-6 .services {
+        border-radius: 10px;
+        max-width: 636px;
+        max-height: 424px;
+    }
+
+    .col-md-6.col-lg-4 .services {
+        border-radius: 10px;
+        max-width: 416px;
+        max-height: 278px;
+    }
+
+    .masonry .col-md-6.col-lg-4 .services,
+    .masonry .col-md-6 .services {
+        border-radius: 10px;
+        max-width: 100%;
+        max-height: 100%;
+    }
 }
 
 .card-wrapper {
@@ -1878,12 +1907,14 @@ h6,
 }
 
 #myTab .nav-item:first-child  button.nav-link, 
+.myTab .nav-item:first-child  button.nav-link, 
 .nav-scroller .nav .nav-item:first-child  button.nav-link,
 .archive-portfolio-section-2 .nav-scroller .nav-item:first-child a.nav-link {
     padding-left: 0;
 }
 
 #myTab .nav-item:last-child  button.nav-link, 
+.myTab .nav-item:last-child  button.nav-link, 
 .nav-scroller .nav .nav-item:last-child  button.nav-link,
 .archive-portfolio-section-2 .nav-scroller .nav-item:last-child a.nav-link {
     padding-right: 0;
@@ -3037,6 +3068,7 @@ footer {
 }
 
 @media (max-width: 771.98px) {
+    .default-card,
     .section-portfolio.archive-portfolio-section-2 .col-md-6.col-lg-4 .approximation,
     .archive-portfolio-section .col-md-6 .approximation,
     .col-md-6 .project-container-2:after,

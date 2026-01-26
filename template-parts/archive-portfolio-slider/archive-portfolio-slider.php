@@ -3,65 +3,64 @@
  * Template part: Archive Portfolio Slider
  * 
  * Параметры:
- * $args['show_breadcrumbs']    - показывать хлебные крошки (true/false), по умолчанию true
- * $args['breadcrumbs_text']    - текст хлебных крошек после "Услуги /", например "Кухни на заказ"
- * $args['title']               - заголовок секции, по умолчанию "Наши работы"
- * $args['description']         - подзаголовок (section-description), по умолчанию "Представляем с гордостью!"
- * $args['taxonomy_slug']       - slug таксономии для фильтрации (например '06-shkafy')
- * $args['category_link']       - URL ссылки "Показать еще" (например '/portfolio-cat/06-shkafy/')
- * $args['posts_per_page']      - количество постов для вывода, по умолчанию все
+ * $args['category']            - slug категории для фильтрации (например '06-shkafy'), если не указан - выводятся все работы
+ * $args['section_title']       - заголовок секции, по умолчанию "Наши работы"
+ * $args['section_description'] - описание секции (подзаголовок), по умолчанию "Представляем с гордостью!"
+ * $args['background_color']    - цвет фона (например: 'bg-white', 'bg-light'), по умолчанию 'bg-white'
+ * $args['posts_count']         - количество постов для вывода, по умолчанию -1 (все)
+ * $args['card_type']           - тип карточки: 'approximation', 'zoom-card', 'hover-image', 'magnifier', по умолчанию 'approximation'
+ * $args['show_button']         - показывать кнопку "Показать еще" (bool), по умолчанию true
+ * $args['button_text']         - текст кнопки, по умолчанию 'Показать еще'
+ * $args['button_link']         - ссылка кнопки, если не указан - формируется автоматически
+ * $args['show_breadcrumbs']    - показывать хлебные крошки (bool), по умолчанию false
+ * $args['breadcrumbs_items']   - массив элементов хлебных крошек (см. breadcrumbs.php)
  * 
- * 
+ * Пример использования:
  * <?php 
  * get_template_part('template-parts/archive-portfolio-slider/archive-portfolio-slider', null, [
  *     'show_breadcrumbs' => true,
- *     'breadcrumbs_text' => 'Кухни на заказ',
- *     'title' => 'Наши работы',
- *     'description' => 'Представляем с гордостью!',
- *     'taxonomy_slug' => '06-shkafy',
- *     'category_link' => '/portfolio-cat/06-shkafy/',
- *     'posts_per_page' => 10
+ *     'breadcrumbs_items' => [
+ *         ['text' => 'Услуги', 'link' => '/services/'],
+ *         ['text' => 'Кухни на заказ']
+ *     ],
+ *     'section_title' => 'Наши работы',
+ *     'section_description' => 'Представляем с гордостью!',
+ *     'category' => '06-shkafy',
+ *     'posts_count' => 10,
+ *     'card_type' => 'approximation'
  * ]); 
  * ?>
  */
 
 // Устанавливаем значения по умолчанию
-$show_breadcrumbs = isset($args['show_breadcrumbs']) ? $args['show_breadcrumbs'] : true;
-$breadcrumbs_text = isset($args['breadcrumbs_text']) ? $args['breadcrumbs_text'] : '';
-$title = isset($args['title']) ? $args['title'] : 'Наши работы';
-$description = isset($args['description']) ? $args['description'] : 'Представляем с гордостью!';
-$taxonomy_slug = isset($args['taxonomy_slug']) ? $args['taxonomy_slug'] : '';
-$category_link = isset($args['category_link']) ? $args['category_link'] : '/portfolio/';
-$posts_per_page = isset($args['posts_per_page']) ? $args['posts_per_page'] : -1;
+$category = isset($args['category']) ? $args['category'] : 'all';
+$section_title = isset($args['section_title']) ? $args['section_title'] : 'Наши работы';
+$section_description = isset($args['section_description']) ? $args['section_description'] : 'Представляем с гордостью!';
+$background_color = isset($args['background_color']) ? $args['background_color'] : 'bg-white';
+$posts_count = isset($args['posts_count']) ? $args['posts_count'] : -1;
+$card_type = isset($args['card_type']) ? $args['card_type'] : 'approximation';
+$show_button = isset($args['show_button']) ? $args['show_button'] : true;
+$button_text = isset($args['button_text']) ? $args['button_text'] : 'Показать еще';
+$show_card_title = isset($args['show_card_title']) ? $args['show_card_title'] : true;
+
+// Автоматическое определение ссылки кнопки
+if (!empty($category) && $category !== 'all') {
+    $term = get_term_by('slug', $category, 'portfolio-cat');
+    $button_link = $term ? get_term_link($term) : '/portfolio/';
+} else {
+    $button_link = '/portfolio/';
+}
 ?>
 
 <!-- Archive portfolio section -->
-<section class="archive-portfolio-section-2 pt-4 bg-white" style="padding-bottom: 60px;">
+<section class="archive-portfolio-section-2 <?php echo esc_attr($background_color); ?>" style="padding-block: 60px;">
     <div class="container">
-        <?php if ($show_breadcrumbs) : ?>
-        <div class="row">
-            <div class="col">
-                <nav class="woocommerce-breadcrumb breadcrumbs">
-                    <a href="/">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" fill="currentColor" viewBox="0 0 24 24" class="svg-icon">
-                            <path
-                                d="m21.71 11.29-9-9a1 1 0 0 0-1.42 0l-9 9a1 1 0 0 0 1.42 1.42l.29-.3v7.89A1.77 1.77 0 0 0 5.83 22H8.5a1 1 0 0 0 1-1v-4.9a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1V21a1 1 0 0 0 1 1h2.67A1.77 1.77 0 0 0 20 20.3v-7.89l.29.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42" />
-                        </svg>
-                    </a>
-                    <?php if ($breadcrumbs_text) : ?>
-                    / Услуги / <?php echo esc_html($breadcrumbs_text); ?>
-                    <?php endif; ?>
-                </nav>
-            </div>
-        </div>
-        <?php endif; ?>
-        
         <div class="row">
             <div class="col text-md-center">
-                <h2><?php echo esc_html($title); ?></h2>
+                <h2><?php echo esc_html($section_title); ?></h2>
 
-                <?php if ($description) : ?>
-                <p class="section-description archive-portfolio mb-3"><?php echo esc_html($description); ?></p>
+                <?php if ($section_description) : ?>
+                <p class="section-description archive-portfolio mb-3"><?php echo esc_html($section_description); ?></p>
                 <?php endif; ?>
 
                 <svg width="62" height="14" viewBox="0 0 62 14" fill="currentcolor" xmlns="http://www.w3.org/2000/svg" class="svg-icon mb-5">
@@ -76,13 +75,13 @@ $posts_per_page = isset($args['posts_per_page']) ? $args['posts_per_page'] : -1;
             <?php
             $query_args = [
                 'post_type' => 'portfolio',
-                'numberposts' => $posts_per_page,
-                'posts_per_page' => $posts_per_page
+                'numberposts' => $posts_count,
+                'posts_per_page' => $posts_count
             ];
             
-            // Добавляем фильтр по таксономии, если указан slug
-            if ($taxonomy_slug) {
-                $query_args['portfolio-cat'] = $taxonomy_slug;
+            // Добавляем фильтр по категории, если указан slug (не 'all')
+            if (!empty($category) && $category !== 'all') {
+                $query_args['portfolio-cat'] = $category;
             }
 
             $query = new WP_Query($query_args);
@@ -93,10 +92,10 @@ $posts_per_page = isset($args['posts_per_page']) ? $args['posts_per_page'] : -1;
                     
                     // Подсчитываем количество изображений
                     $images_count = 0;
-                    for ($i = 1; $i <= 9; $i++) {
-                        if (get_post_meta($post->ID, '_img-' . $i)) {
-                            $images_count++;
-                        }
+                    $i = 1;
+                    while (get_post_meta($post->ID, '_img-' . $i, true)) {
+                        $images_count++;
+                        $i++;
                     }
                     ?>
                     <div class="col-md-6">
@@ -106,16 +105,17 @@ $posts_per_page = isset($args['posts_per_page']) ? $args['posts_per_page'] : -1;
                             <?php if ($images_count > 1) : ?>
                             <div class="carousel-indicators" style="bottom: 5%;">
                                 <?php
-                                $count2 = 0;
-                                for ($i = 1; $i <= 9; $i++) {
-                                    if (get_post_meta($post->ID, '_img-' . $i)) { ?>
-                                        <button type="button" data-bs-target="#carouselExampleIndicators<?php echo $post->ID; ?>"
-                                            data-bs-slide-to="<?php echo $i - 1; ?>" 
-                                            <?php if ($i == 1) echo ' class="active"'; ?>
-                                            aria-current="true" 
-                                            aria-label="Slide <?php echo $i; ?>"></button>
-                                <?php $count2++;
-                                    }
+                                $i = 1;
+                                $slide_index = 0;
+                                while (get_post_meta($post->ID, '_img-' . $i, true)) { ?>
+                                    <button type="button" data-bs-target="#carouselExampleIndicators<?php echo $post->ID; ?>"
+                                        data-bs-slide-to="<?php echo $slide_index; ?>" 
+                                        <?php if ($slide_index == 0) echo ' class="active"'; ?>
+                                        aria-current="true" 
+                                        aria-label="Slide <?php echo ($slide_index + 1); ?>"></button>
+                            <?php
+                                    $i++;
+                                    $slide_index++;
                                 }
                                 ?>
                             </div>
@@ -123,22 +123,23 @@ $posts_per_page = isset($args['posts_per_page']) ? $args['posts_per_page'] : -1;
                             
                             <div class="carousel-inner ">
                                 <?php
-                                $count2 = 0;
-                                for ($i = 1; $i <= 9; $i++) {
-                                    if (get_post_meta($post->ID, '_img-' . $i)) { ?>
-                                        <div class="carousel-item <?php if ($i == 1) echo ' active'; ?>" data-bs-interval="999999999">
-                                            <a onClick="galleryOn('gallery-<?php echo $post->ID; ?>','img-<?php echo $post->ID; ?>-<?php echo $count2; ?>');">
-                                                <div class="single-product-img approximation">
-                                                    <img src="<?php echo get_post_meta($post->ID, '_img-' . $i)[0]; ?>"
-                                                        class="shadow " 
-                                                        alt="<?php echo esc_attr(get_the_title()); ?>" 
-                                                        loading="lazy">
-                                                    <div class="magnifier"></div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                <?php $count2++;
-                                    }
+                                $i = 1;
+                                $img_index = 0;
+                                while ($img_src = get_post_meta($post->ID, '_img-' . $i, true)) { ?>
+                                    <div class="carousel-item <?php if ($i == 1) echo ' active'; ?>" data-bs-interval="999999999">
+                                        <a onClick="galleryOn('gallery-<?php echo $post->ID; ?>','img-<?php echo $post->ID; ?>-<?php echo $img_index; ?>');">
+                                            <?php 
+                                            get_template_part('template-parts/cards/card', null, array(
+                                                'image' => $img_src,
+                                                'card_type' => $card_type,
+                                                'link' => ''
+                                            ));
+                                            ?>
+                                        </a>
+                                    </div>
+                            <?php
+                                    $i++;
+                                    $img_index++;
                                 }
                                 ?>
                             </div>
@@ -162,7 +163,7 @@ $posts_per_page = isset($args['posts_per_page']) ? $args['posts_per_page'] : -1;
                 <?php endwhile;
             else : ?>
                 <div class="col-12 text-center py-5">
-                    <p>Работы не найдены.</p>
+                    <p>Проверьте категорию</p>
                 </div>
             <?php endif;
 
@@ -170,10 +171,12 @@ $posts_per_page = isset($args['posts_per_page']) ? $args['posts_per_page'] : -1;
             ?>
         </div>
         
-        <?php if ($category_link) : ?>
+        <?php if ($show_button && $query->have_posts()) : ?>
         <div class="row text-md-center">
             <div class="col">
-                <a href="<?php echo esc_url($category_link); ?>" type="button" class="btn btn-lg btn-corporate-color-1">Показать еще</a>
+                <a href="<?php echo esc_url($button_link); ?>" type="button" class="btn btn-lg btn-corporate-color-1">
+                    <?php echo esc_html($button_text); ?>
+                </a>
             </div>
         </div>
         <?php endif; ?>
