@@ -33,7 +33,7 @@ $current_term = get_queried_object(); // определяем ID текущей 
 <?php 
 get_template_part('template-parts/portfolio-masonry-gallery/portfolio-masonry-gallery', null, [
     'bg_color' => 'bg-white',
-    'category' => $current_term->term_id, // ID текущей категории
+    'category' => $current_term->slug,
     'show_title' => true,
     'show_breadcrumbs' => true,
     'show_filter' => true,
